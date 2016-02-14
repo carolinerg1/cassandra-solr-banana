@@ -6,8 +6,11 @@ Requirements
 1. DataStax Enterprise (current DSE version: 4.8.4):  https://academy.datastax.com/downloads
 2. Luciworks Banana:  https://github.com/lucidworks/banana
 
+
+
 Setup
 1. Install DSE:  https://docs.datastax.com/en/datastax_enterprise/4.8/datastax_enterprise/install/installTOC.html
+
 
 2. Start DSE with Solr enabled
 No service/Tarball installation:  $ bin/dse cassandra -s
@@ -15,6 +18,7 @@ or
 Services/installer: set SOLR_ENABLED=1 in /etc/default/dse
 
 http://docs.datastax.com/en/datastax_enterprise/4.8/datastax_enterprise/srch/srchInstall.html?scroll=srchInstall__srchStrtStp
+
 
 3. Create Cassandra Keysapce and Table 
 
@@ -38,15 +42,19 @@ cqlsh>
 	PRIMARY KEY (stationid, metric, event_timestamp)
 );
 
+
 4. Load Data (weather data file included in DSE demos)
 cqlsh> COPY sensor.daily (stationid, metric, event_timestamp, location, max, mean, median, min, percentile1, percentile5, percentile95, percentile99, total) FROM '$DSE_HOME/demos/weather_sensors/resources/daily.csv' WITH HEADER='true';
+
 
 5. Create Solr Index
 $ bin/dsetool create_core sensor.daily generateResources=true reindex=true
 
+
 6. Clone Banana (https://github.com/lucidworks/banana) to DSE's "resources" folder
 Services/Installer:  /usr/share/dse/resources
 No services/tarball: install_location/resources
+
 
 7. Configure Banana
 
@@ -67,9 +75,12 @@ $ curl -X POST -H 'Content-type:text/xml; charset=utf-8' "http://localhost:8983/
 
 <Context docBase="../../banana/src" path="/banana" />
 
+
 8. Delete $DSE_HOME/resources/tomcat/work
 
+
 9. Restart DSE:  https://docs.datastax.com/en/datastax_enterprise/4.8/datastax_enterprise/startStop/refDseStartStopDse.html
+
 
 10. Configure Banana Dashboard:  http://localhost:8983/banana
 Upper right menu: New -> Timeseries Dashboard -> change Collection to "sensor.daily" 
