@@ -4,7 +4,7 @@ Visualizing DSE Cassandra Solr with Banana
 
 Requirements
 1. DataStax Enterprise (current DSE version: 4.8.4):  https://academy.datastax.com/downloads
-2. Luciworks Banana:  https://github.com/lucidworks/banana
+2. Lucidworks Banana:  https://github.com/lucidworks/banana
 
 
 
