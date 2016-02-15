@@ -20,7 +20,7 @@ Services/installer: set SOLR_ENABLED=1 in /etc/default/dse
 http://docs.datastax.com/en/datastax_enterprise/4.8/datastax_enterprise/srch/srchInstall.html?scroll=srchInstall__srchStrtStp
 
 
-3. Create Cassandra Keysapce and Table 
+3. Create Cassandra Keyspace and Table 
 
 cqlsh> 
  CREATE KEYSPACE IF NOT EXISTS sensor WITH replication = { 'class': 'SimpleStrategy', 'replication_factor': '1'};
@@ -58,7 +58,10 @@ No services/tarball: install_location/resources
 
 7. Configure Banana
 
-7.1 $DSE_HOME/resources/banana/src/config.js, change "banana_index" to "banana.dashboards"
+7.1 Update config.js
+In $DSE_HOME/resources/banana/src/config.js:
+- set “banana_index” to “banana.dashboards”: banana_index: “banana.dashboards”,
+- set “solr_core” to “sensor.daily”: solr_core: “sensor.daily”,
 
 7.2 Post schema.xml and solrconfig.xml
 
@@ -69,7 +72,7 @@ $ curl --data-binary @schema.xml -H 'Content-type:text/xml; charset=utf-8' "http
 
 $ curl -X POST -H 'Content-type:text/xml; charset=utf-8' "http://localhost:8983/solr/admin/cores?action=CREATE&name=banana.dashboards"
 
-(if you make changes to schema.xml: curl -X POST -H 'Content-type:text/xml; charset=utf-8' "http://localhost:8983/solr/admin/cores?action=CREATE&name=banana.dashboards")
+(if you change schema.xml, you will need to reload it: curl -X POST -H 'Content-type:text/xml; charset=utf-8' "http://localhost:8983/solr/admin/cores?action=RELOAD&name=banana.dashboards")
 
 7.3 Update $DSE_HOME/resources/tomcat/conf/server.xml, add the following inside the <Host> tags:
 
